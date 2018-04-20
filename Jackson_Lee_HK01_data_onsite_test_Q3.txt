@@ -1,0 +1,29 @@
+Q3
+
+Since the interactive kiosks will only physically exist at the voting venue, in terms of hardware it could be a raspberry pi (with UNIX GUI base OS + web browser)  and connected with a touchscreen, with such lightweight hardware environment. The system architecture design could be:
+
+Frontend of the touchscreen kiosks:
+HTML5 + reactJS:  with simple button clicks to submit vote selections (send REST POST with JSON to AWS lambda)
+
+JSON content will include: 
+unique ID [hash+hardware ID] of the vote
+hardware ID  of the kiosks that sent the vote, 
+a vote submission timestamp, 
+the vote selection (the CE name)
+
+
+Middleware:
+AWS Lambda + Python: 
+Will serve as data loader from submitted JSON to AWS Redshift
+and trigger a SQL unload CSV job to S3 (Unload the total vote count for each candidate and lastest 10 mins vote distribution by vote submission timestamp)
+
+Database:
+AWS Redshift database: load each valid votes detail from the JSON
+Being unload the latest count of each candidate 1 min/time and lastest vote distribution (count in %) 10 mins/time to S3 in CSV format (Append to the last row of the CSV)
+
+File Storage for latest statistics:
+S3 : Each aggregated result will upload to S3 in CSV format and data are ready to be displayed on the web interface
+
+Frontend of displaying the voting result:
+HTML5 + reactJS: Website will display the voting result with some charts by feeding the latest record from the S3 CSV
+
