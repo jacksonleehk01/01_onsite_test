@@ -1,5 +1,6 @@
 #By Jackson Lee
 
+
 #Q1
 #get file to local
 wget ftp://ita.ee.lbl.gov/traces/NASA_access_log_Aug95.gz

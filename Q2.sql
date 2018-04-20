@@ -1,4 +1,4 @@
--- By Jackson Lee
+-- By Jackson Lee 
 -- Q1 
 SELECT
 	articles.id as article_id,
